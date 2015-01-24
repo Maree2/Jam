@@ -15,6 +15,5 @@ public class ActionController : MonoBehaviour
 
     public void Awake()
     {
-
     }
 }
