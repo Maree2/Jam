@@ -20,6 +20,5 @@ public class ActionController : MonoBehaviour
     // This function is called every fixed framerate frame, if the MonoBehaviour is enabled (Since v1.0)
     public void FixedUpdate()
     {
-
     }
 }
