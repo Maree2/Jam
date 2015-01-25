@@ -3,21 +3,15 @@ using System.Collections;
 
 public class SfxController : MonoBehaviour
 {
+    public Sfx[] elements;
 
-    public void Awake()
+    public void Play(int elementId)
     {
-        
+        elements[elementId].Play();
     }
 
-    public void Start()
+    public void Stop(int elementId)
     {
-
+        elements[elementId].Stop();
     }
-
-    public void Update()
-    {
-
-    }
-
-
 }

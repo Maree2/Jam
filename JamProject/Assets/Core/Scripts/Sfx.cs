@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Sfx : MonoBehaviour
 {
+    public bool isPercussion;
     public AudioClip clip;
+    public AudioClip pizzicato;
     // Use this for initialization
     void Start()
     {
@@ -18,13 +20,21 @@ public class Sfx : MonoBehaviour
 
     }
 
-    void Play()
+    public void Play()
     {
-
+        audio.Play();
     }
 
-    void Stop()
+    public void Stop()
     {
         audio.Stop();
     }
+
+    public void PlayPizzicato()
+    {
+        audio.clip = pizzicato;
+        audio.loop = false;
+        audio.Play();
+    }
+
 }

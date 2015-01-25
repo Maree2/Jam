@@ -6,6 +6,7 @@ public class ActionController : MonoBehaviour
 
     public Camera mainCamera;
     public float pizzicatoThreshold = 0.36f;
+    public SfxController sfxController;
 
     public Color earthColor;
     public Color fireColor;
@@ -35,6 +36,8 @@ public class ActionController : MonoBehaviour
         if (mainCamera == null)
             Debug.LogError("No camera assigned");
         defaultColor = mainCamera.backgroundColor;
+        if (sfxController == null)
+            Debug.LogError("No SfxController assigned");
     }
 
     public void Update()
@@ -46,6 +49,7 @@ public class ActionController : MonoBehaviour
         {
             mainCamera.backgroundColor = earthColor;
             isEarth = true;
+            sfxController.Play(0);
         }
 
         if (Input.GetButtonUp("Earth"))
@@ -59,6 +63,7 @@ public class ActionController : MonoBehaviour
         {
             mainCamera.backgroundColor = fireColor;
             isFire = true;
+            sfxController.Play(1);
         }
 
         if (Input.GetButtonUp("Fire"))
