@@ -160,10 +160,45 @@ public class PlanetController : MonoBehaviour
             //ResetPlanet();
             Bong(0);
         }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            Mesh mesh = GetComponent<MeshFilter>().mesh;
+            Vector3[] vertices = mesh.vertices;
+            Vector3[] normals = mesh.normals;
+            int i = 0;
+            while (i < vertices.Length)
+            {
+                vertices[i] += normals[i] * Mathf.Sin(Time.deltaTime);
+                i++;
+            }
+            mesh.vertices = vertices;
+            planetMesh.RecalculateBounds();
+        }
 	}
+
+    IEnumerator DeforrmSphere()
+    {
+        Vector3[] vertices = planetMesh.vertices;
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = Vector3.Lerp(vertices[i], new Vector3(vertices[i].x * 1.5f, vertices[i].y * 0.5f, vertices[i].z * 1.5f), 0.5f);
+            planetMesh.vertices = vertices;
+            planetMesh.RecalculateBounds();
+        }
+        yield return null;
+    }
     
     public void Bong(float strength)
     {
+
+        /**planetMesh.colors = bongoColors;
+        planetMesh.vertices = bongoVertices;
+        planetMesh.RecalculateNormals();
+        planetMesh.RecalculateBounds();*/
+
+        //return;
+
         StartCoroutine("BongoGrow", 1f);
 
         return;
@@ -237,11 +272,11 @@ public class PlanetController : MonoBehaviour
             for (int i = 0; i < planetMesh.vertices.Length; i++)
             {
                 planetMesh.vertices[i] = Vector3.Lerp(planetMesh.vertices[i], bongoVertices[i], t / time);
+                yield return new WaitForSeconds(0.25f);
             }            
-            planetMesh.RecalculateNormals();
-            planetMesh.RecalculateBounds();
-            time += .25f;
-            yield return new WaitForSeconds(.25f);
+            //planetMesh.RecalculateNormals();
+            //planetMesh.RecalculateBounds();
+            time += 0.25f;
         }
     }
 }
