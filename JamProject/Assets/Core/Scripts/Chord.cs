@@ -13,7 +13,6 @@ public class Chord : MonoBehaviour
 
     public IEnumerator Play(float swapTime)
     {
-        Debug.Log(gameObject.name);
         attack.Play();
         yield return new WaitForSeconds(swapTime);
         //attack.Stop();
