@@ -11,7 +11,13 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     [Range(0, 360)]
-    float angleX, angleY, lookAngle;
+    float longitudeAngle, latitudeAngle, lookAngle;
+
+    [SerializeField]
+    float longitudePerSecond = 0f, latitudePerSecond = 0f;
+
+    [SerializeField]
+    float longitudeSpeed = 0f, latitudeSpeed = 0f;
 
     void Awake()
     { 
@@ -27,20 +33,34 @@ public class CameraController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        transform.position = CalculatePosition(angleX, angleY);
-        Camera.main.transform.LookAt(center, transform.up);
-        Camera.main.transform.Rotate(Vector3.right, -lookAngle);
+        int h = Mathf.RoundToInt( Input.GetAxis("Horizontal"));
+        int v = Mathf.RoundToInt(Input.GetAxis("Vertical"));
+
+        Debug.Log("H: " + h + " | V: " + v);
+
+        //h = latitudeSpeed;
+        //v = longitudeSpeed;
+
+        latitudeAngle += latitudePerSecond * Time.deltaTime * h;
+        longitudeAngle += longitudePerSecond * Time.deltaTime * v;
+
+        transform.position = CalculatePosition(longitudeAngle, latitudeAngle);
+
+        //transform.Rotate(Vector3.up, 20 * Time.deltaTime, Space.Self);
+        
+        //Camera.main.transform.LookAt(center, transform.up);
+        //Camera.main.transform.Rotate(Vector3.right, -lookAngle);        
 	}
 
-    Vector3 CalculatePosition(float angleInX, float angleInY)
+    Vector3 CalculatePosition(float longitude, float latitude)
     {
         //angleInX -= 360f;
-        angleInX *= Mathf.Deg2Rad;
-        angleInY *= Mathf.Deg2Rad;
-
-        float x = center.position.x + Mathf.Sin(angleInX) * distanceFromCenter * Mathf.Cos(angleInY);
-        float y = center.position.y + Mathf.Cos(angleInX) * distanceFromCenter;
-        float z = center.position.z + Mathf.Sin(angleInX) * distanceFromCenter * Mathf.Sin(angleInY);
+        longitude *= Mathf.Deg2Rad;
+        latitude *= Mathf.Deg2Rad;
+        
+        float x = center.position.x + Mathf.Cos(longitude) * distanceFromCenter * Mathf.Cos(latitude);
+        float y = center.position.y + Mathf.Sin(longitude) * distanceFromCenter;
+        float z = center.position.z + Mathf.Sin(latitude) * distanceFromCenter * Mathf.Cos(longitude);
 
         return new Vector3(x, y, z);
     }
