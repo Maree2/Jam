@@ -48,7 +48,8 @@ public class ActionController : MonoBehaviour
 
         if (Input.GetButtonDown("Earth"))
         {
-            mainCamera.backgroundColor = earthColor;
+            //mainCamera.backgroundColor = earthColor;
+            StartCoroutine("ChangeColor", earthColor);
             isEarth = true;
             sfxController.Pizzicato(0);
         }
@@ -57,12 +58,14 @@ public class ActionController : MonoBehaviour
         {
             earthTime = 0f;
             isEarth = false;
-            mainCamera.backgroundColor = defaultColor;
+            //mainCamera.backgroundColor = defaultColor;
+            StartCoroutine("ChangeColor", defaultColor);
         }
 
         if (Input.GetButtonDown("Fire"))
         {
-            mainCamera.backgroundColor = fireColor;
+            //mainCamera.backgroundColor = fireColor;
+            StartCoroutine("ChangeColor", fireColor);
             isFire = true;
             sfxController.Pizzicato(0);
         }
@@ -71,12 +74,14 @@ public class ActionController : MonoBehaviour
         {
             fireTime = 0f;
             isFire = false;
-            mainCamera.backgroundColor = defaultColor;
+            //mainCamera.backgroundColor = defaultColor;
+            StartCoroutine("ChangeColor", defaultColor);
         }
 
         if (Input.GetButtonDown("Water"))
         {
-            mainCamera.backgroundColor = waterColor;
+            //mainCamera.backgroundColor = waterColor;
+            StartCoroutine("ChangeColor", waterColor);
             isWater = true;
         }
 
@@ -97,12 +102,14 @@ public class ActionController : MonoBehaviour
             }
             waterTime = 0f;
             isWater = false;
-            mainCamera.backgroundColor = defaultColor;
+            //mainCamera.backgroundColor = defaultColor;
+            StartCoroutine("ChangeColor", defaultColor);
         }
 
         if (Input.GetButtonDown("Wind"))
         {
-            mainCamera.backgroundColor = windColor;
+            //mainCamera.backgroundColor = windColor;
+            StartCoroutine("ChangeColor", windColor);
             isWind = true;
         }
 
@@ -121,7 +128,8 @@ public class ActionController : MonoBehaviour
             }
             windTime = 0f;
             isWind = false;
-            mainCamera.backgroundColor = defaultColor;
+            //mainCamera.backgroundColor = defaultColor;
+            StartCoroutine("ChangeColor", defaultColor);
         }
         #endregion
 
@@ -147,6 +155,20 @@ public class ActionController : MonoBehaviour
             // TODO
             // play indefinitely
             isWindHold = true;
+        }
+    }
+
+    IEnumerator ChangeColor(Color newColor)
+    {
+        float elapsedTime = 0;
+        float time = 1f;
+
+        while (elapsedTime < time)
+        {
+            //bgTexture.alpha = Mathf.Lerp(bgTexture.alpha, alphaFinish, (elapsedTime / time));
+            mainCamera.backgroundColor = Color.Lerp(mainCamera.backgroundColor, newColor, elapsedTime / time);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
     }
 }
