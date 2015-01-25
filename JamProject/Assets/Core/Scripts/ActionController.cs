@@ -165,11 +165,11 @@ public class ActionController : MonoBehaviour
     {
         float elapsedTime = 0;
         float time = 1f;
-
+        Color initialColor = mainCamera.backgroundColor;
         while (elapsedTime < time)
         {
             //bgTexture.alpha = Mathf.Lerp(bgTexture.alpha, alphaFinish, (elapsedTime / time));
-            mainCamera.backgroundColor = Color.Lerp(mainCamera.backgroundColor, newColor, elapsedTime / time);
+            mainCamera.backgroundColor = Color.Lerp(initialColor, newColor, elapsedTime / time);
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }

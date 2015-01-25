@@ -87,7 +87,7 @@ public class PlanetController : MonoBehaviour
             }
             else if (distance == 0f)
             {
-                bongoVertices[i] += planetMesh.normals[i] * strength * 2f;
+                bongoVertices[i] += planetMesh.normals[i] * strength * 1.125f;
                 bongoColors[i] = strongBaseColor; //Color.green;
                 bongoLifeColors[i] = strongLifeColor; //Color.green;
                 //colors[i] = Color.red;
