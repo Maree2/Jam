@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
     float speedAcc = 5f, speedDecc = 5f;
 
     [SerializeField]
-    ParticleSystem fireParticles;
+    GameObject fireParticles;
+    //ParticleSystem fireParticles;
 
     float bongoCooldownTime = 0f, fireCooldownTime = 0f, waterCooldownTime = 0f;
     
@@ -55,7 +56,8 @@ public class PlayerController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        fireParticles.Stop();
+        //fireParticles.Stop();
+        fireParticles.SetActive(false);
 	}
 
     void RegulateMovementSpeed()
@@ -140,24 +142,27 @@ public class PlayerController : MonoBehaviour
 
 
         // Fire /////////
-        if (fireCooldownTime > 0f)
+        /*if (fireCooldownTime > 0f)
         {
             fireCooldownTime -= Time.deltaTime;
 
             if (fireCooldownTime <= 0f)
             {
                 fireCooldownTime = 0f;
-                fireParticles.Stop();
+                //fireParticles.Stop();
+                fireParticles.SetActive(false);
             }
-        }
+        }*/
 
-        if (Input.GetButtonDown("Fire")) // GetMouseButtonDown(0))
+        if (Input.GetButton("Fire")) // GetMouseButtonDown(0))
         {
-            fireParticles.Play();
-            fireCooldownTime = 2f;
+            //fireParticles.Play();
+            fireParticles.SetActive(true);
+            fireCooldownTime = 0f;
         }
-        else if (Input.GetButtonUp("Fire")) //Input.GetMouseButtonUp(0))
+        else
         {
+            fireParticles.SetActive(false);
         }
 
     }
