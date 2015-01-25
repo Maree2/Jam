@@ -22,10 +22,10 @@ public class ActionController : MonoBehaviour
     private bool isFireOld;
 
     private bool isWater;
-    private bool isWaterOld;
+    private bool isWaterHold;
 
     private bool isWind;
-    private bool isWindOld;
+    private bool isWindHold;
 
     private float earthTime;
     private float fireTime;
@@ -82,15 +82,18 @@ public class ActionController : MonoBehaviour
 
         if (Input.GetButtonUp("Water"))
         {
+            isWaterHold = false;
             if (waterTime <= pizzicatoThreshold)
             {
                 // TODO
                 // call pizzicato here no loop
+                sfxController.Pizzicato(2);
             }
             else
             {
                 // TODO
                 // stop playing the loop
+                sfxController.Stop(2);
             }
             waterTime = 0f;
             isWater = false;
@@ -105,6 +108,7 @@ public class ActionController : MonoBehaviour
 
         if (Input.GetButtonUp("Wind"))
         {
+            isWindHold = false;
             if (windTime <= pizzicatoThreshold)
             {
                 // TODO
@@ -130,16 +134,19 @@ public class ActionController : MonoBehaviour
         if (isWind)
             windTime += Time.deltaTime;
 
-        if (waterTime > pizzicatoThreshold)
+        if (waterTime > pizzicatoThreshold && !isWaterHold)
         {
             // TODO
             // play indefinitely
+            sfxController.Play(2);
+            isWaterHold = true;
         }
 
-        if (windTime > pizzicatoThreshold)
+        if (windTime > pizzicatoThreshold && !isWindHold)
         {
             // TODO
             // play indefinitely
+            isWindHold = true;
         }
     }
 }

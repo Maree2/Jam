@@ -14,4 +14,9 @@ public class SfxController : MonoBehaviour
     {
         elements[elementId].Stop();
     }
+
+    public void Pizzicato(int elementId)
+    {
+        elements[elementId].Pizzicato();
+    }
 }

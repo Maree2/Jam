@@ -3,15 +3,16 @@ using System.Collections;
 
 public class Sfx : MonoBehaviour
 {
-    public bool isPercussion;
-    public AudioClip clip;
-    public AudioClip pizzicato;
+    public AudioClip[] clips;
+    public AudioClip[] pizzicatos;
+    private int clipId = 0;
+
     // Use this for initialization
     void Start()
     {
-        if (clip == null)
-            Debug.LogError("No clip assigned");
-        audio.clip = clip;
+        if (clips.Length < 1)
+            Debug.LogError("No audio clips");
+        audio.clip = clips[clipId];
     }
 
     // Update is called once per frame
@@ -22,6 +23,10 @@ public class Sfx : MonoBehaviour
 
     public void Play()
     {
+        if (clips.Length > 1)
+            clipId = Random.Range(0, clips.Length - 1);
+        audio.clip = clips[clipId];
+        audio.loop = true;
         audio.Play();
     }
 
@@ -30,9 +35,10 @@ public class Sfx : MonoBehaviour
         audio.Stop();
     }
 
-    public void PlayPizzicato()
+    public void Pizzicato()
     {
-        audio.clip = pizzicato;
+        clipId = Random.Range(0, pizzicatos.Length - 1);
+        audio.clip = pizzicatos[clipId];
         audio.loop = false;
         audio.Play();
     }
