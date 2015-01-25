@@ -8,7 +8,7 @@ public class PlanetController : MonoBehaviour
     float maxPerlinNoiseMagnitude = 0.2f;
 
     [SerializeField]
-    Color baseColor, strongBaseColor;
+    Color baseColor, strongBaseColor, baseLifeColor, strongLifeColor;
 
     Vector3[] originalNormals;
     Vector3[] originalVertices;
@@ -16,9 +16,11 @@ public class PlanetController : MonoBehaviour
 
     Vector3[] bongoNormals;
     Vector3[] bongoVertices;
-    Color[] bongoColors;
+    Color[] bongoColors, bongoLifeColors;
 
     Mesh planetMesh;
+
+    public bool isBongoing = false, isLifeing = false;
 
     void Awake()
     {
@@ -42,6 +44,8 @@ public class PlanetController : MonoBehaviour
         bongoColors = new Color[originalColors.Length];
         planetMesh.colors.CopyTo(bongoColors, 0);
 
+        bongoLifeColors = new Color[originalColors.Length];
+        planetMesh.colors.CopyTo(bongoLifeColors, 0);
 
         HashSet<int> mountainPeaks = new HashSet<int>();
         int numberOfPeaks = Mathf.RoundToInt(Random.Range(bongoVertices.Length * 0.1f, bongoVertices.Length * 0.4f));
@@ -79,11 +83,13 @@ public class PlanetController : MonoBehaviour
                 float diff = bongoVertices[i].magnitude - m;
 
                 bongoColors[i] = Color.Lerp(strongBaseColor, baseColor, power); //Color.green;
+                bongoLifeColors[i] = Color.Lerp(strongLifeColor, baseLifeColor, power); //Color.green;
             }
             else if (distance == 0f)
             {
                 bongoVertices[i] += planetMesh.normals[i] * strength * 2f;
-                bongoColors[i] = strongBaseColor; ; //Color.green;
+                bongoColors[i] = strongBaseColor; //Color.green;
+                bongoLifeColors[i] = strongLifeColor; //Color.green;
                 //colors[i] = Color.red;
             }
         }
@@ -151,30 +157,15 @@ public class PlanetController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetKeyDown(KeyCode.U)) // GetMouseButtonDown(0))
         { 
             Bong(Random.RandomRange(0.2f, 0.45f));
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetKeyUp(KeyCode.U)) //Input.GetMouseButtonUp(0))
         {
             //ResetPlanet();
             Bong(0);
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            Mesh mesh = GetComponent<MeshFilter>().mesh;
-            Vector3[] vertices = mesh.vertices;
-            Vector3[] normals = mesh.normals;
-            int i = 0;
-            while (i < vertices.Length)
-            {
-                vertices[i] += normals[i] * Mathf.Sin(Time.deltaTime);
-                i++;
-            }
-            mesh.vertices = vertices;
-            planetMesh.RecalculateBounds();
-        }
+        }*/
 	}
 
     IEnumerator DeforrmSphere()
@@ -189,8 +180,49 @@ public class PlanetController : MonoBehaviour
         yield return null;
     }
     
+    public void Life()
+    {
+        originalColors = planetMesh.colors;
+
+        isLifeing = true;
+
+        /*originalColors = planetMesh.colors;
+
+        Color[] colors = new Color[originalColors.Length]; // = new Color[vertices.Length];
+        originalColors.CopyTo(colors, 0);
+
+        Vector3[] vertices = new Vector3[originalVertices.Length]; //planetMesh.vertices;
+        originalVertices.CopyTo(vertices, 0);
+
+        float m;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            m = vertices[i].magnitude;
+            //Debug.Log("m: " + m);
+            colors[i] = Color.Lerp(baseLifeColor, strongLifeColor, 7);            
+        }*/
+
+        if (true) //isBongoing)
+            planetMesh.colors = bongoLifeColors;
+        else
+            planetMesh.colors = bongoColors;
+    }
+
+    public void QuitLife()
+    {
+        planetMesh.colors = originalColors;
+        isLifeing = false;
+    }
+
+    public void QuitBong()
+    {
+        Bong(0);
+        isBongoing = false;
+    }
+
     public void Bong(float strength)
     {
+        isBongoing = true;
 
         /**planetMesh.colors = bongoColors;
         planetMesh.vertices = bongoVertices;
@@ -199,9 +231,8 @@ public class PlanetController : MonoBehaviour
 
         //return;
 
-        StartCoroutine("BongoGrow", 1f);
-
-        return;
+        //StartCoroutine("BongoGrow", 1f);
+        //return;
 
         //ResetPlanet();
 
@@ -241,6 +272,9 @@ public class PlanetController : MonoBehaviour
                 }
             }
 
+            Color a = isLifeing ? strongLifeColor : strongBaseColor;
+            Color b = isLifeing ? baseLifeColor : baseColor;
+
             if (distance > 0f)
             {
                 float power = (1 / distance) * strength;
@@ -248,12 +282,15 @@ public class PlanetController : MonoBehaviour
 
                 float diff = vertices[i].magnitude - m;
 
-                colors[i] = Color.Lerp(strongBaseColor, baseColor, power); //Color.green;
+                if (power < 0.5f)
+                    colors[i] = b;
+                else
+                    colors[i] = Color.Lerp(a, b, power / 10f);
             }
             else if (distance == 0f)
             {
                 vertices[i] += planetMesh.normals[i] * strength * 2f;
-                colors[i] = strongBaseColor;; //Color.green;
+                colors[i] = a; //Color.green;
                 //colors[i] = Color.red;
             }
         }
