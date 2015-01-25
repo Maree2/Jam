@@ -3,54 +3,45 @@ using System.Collections;
 
 public class BgmController : MonoBehaviour
 {
-    public float chordsThreshold = 3f;
+    public float chordLength = 1f;
+    public float overlapTime = 0.3f;
+    public float attackTime = 0.7f;
 
-    public AudioClip[] chords;
+    public Chord[] chords;
 
     private int chordIndex = 0;
-    private int[] chordsProg;
+    private int chordPrev;
 
-    private float timer = 0f;
+    private float timer;
 
     // Use this for initialization
     void Start()
     {
+        timer = 0f;
         chordIndex = 0;
-        audio.clip = chords[chordIndex];
-        audio.Play();
+        chordPrev = 3;
+        StartCoroutine(chords[0].Play(attackTime));
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-        if (chordIndex % 2 == 0)
-        {
-            if (!audio.isPlaying)
-            {
-                chordIndex++;
-                audio.loop = true;
-                audio.clip = chords[chordIndex];
-            }
-        }
-
-        if (timer >= chordsThreshold)
+        if (timer >= chordLength)
         {
             timer = 0f;
-            if (chordIndex % 2 == 0)
-                chordIndex += 2;
-            else
-                chordIndex++;
-
-            if (chordIndex >= 8)
+            chordPrev = chordIndex;
+            chordIndex++;
+            if (chordIndex >= 4)
+            {
                 chordIndex = 0;
-            audio.clip = chords[chordIndex];
-            if (chordIndex % 2 == 0)
-                audio.loop = false;
-            else
-                audio.loop = true;
-            audio.Play();
+                chordPrev = 3;
+            }
+            Chord chordNew = chords[chordIndex];
+            Chord chordOld = chords[chordPrev];
+            StartCoroutine(chordNew.Play(attackTime));
+            StartCoroutine(chordOld.Stop(overlapTime));
         }
-
     }
+
 }
