@@ -11,7 +11,7 @@ public class ReturnToMainMenu : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
     {
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel") || Input.GetKeyDown(KeyCode.Escape))
         {
             Application.LoadLevel("MenuLevel");
         }

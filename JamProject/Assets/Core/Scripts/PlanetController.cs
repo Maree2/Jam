@@ -30,8 +30,16 @@ public class PlanetController : MonoBehaviour
         originalColors = planetMesh.colors;
         originalNormals = planetMesh.normals;
 
+        if (originalColors.Length == 0)
+        {
+            originalColors = new Color[planetMesh.vertices.Length];
+        }
+
+        //Debug.Log("ver: " + originalVertices.Length + "col: " + originalColors.Length);
+
         CalculateBongoState();
     }
+
 
     void CalculateBongoState(float strength = 1f)
     {
@@ -82,8 +90,11 @@ public class PlanetController : MonoBehaviour
 
                 float diff = bongoVertices[i].magnitude - m;
 
-                bongoColors[i] = Color.Lerp(strongBaseColor, baseColor, power); //Color.green;
-                bongoLifeColors[i] = Color.Lerp(strongLifeColor, baseLifeColor, power); //Color.green;
+                if (i < bongoColors.Length && i < bongoLifeColors.Length)
+                {
+                    bongoColors[i] = Color.Lerp(strongBaseColor, baseColor, power); //Color.green;
+                    bongoLifeColors[i] = Color.Lerp(strongLifeColor, baseLifeColor, power); //Color.green;
+                }
             }
             else if (distance == 0f)
             {
