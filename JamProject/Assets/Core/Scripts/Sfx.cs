@@ -10,8 +10,6 @@ public class Sfx : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (clips.Length < 1)
-            Debug.LogError("No audio clips");
         audio.clip = clips[clipId];
     }
 
@@ -23,6 +21,7 @@ public class Sfx : MonoBehaviour
 
     public void Play()
     {
+        clipId = 0;
         if (clips.Length > 1)
             clipId = Random.Range(0, clips.Length - 1);
         audio.clip = clips[clipId];
@@ -37,7 +36,9 @@ public class Sfx : MonoBehaviour
 
     public void Pizzicato()
     {
-        clipId = Random.Range(0, pizzicatos.Length - 1);
+        clipId = 0;
+        if (clips.Length > 1)
+            clipId = Random.Range(0, pizzicatos.Length - 1);
         audio.clip = pizzicatos[clipId];
         audio.loop = false;
         audio.Play();

@@ -50,7 +50,7 @@ public class ActionController : MonoBehaviour
         {
             mainCamera.backgroundColor = earthColor;
             isEarth = true;
-            sfxController.Play(0);
+            sfxController.Pizzicato(0);
         }
 
         if (Input.GetButtonUp("Earth"))
@@ -64,7 +64,7 @@ public class ActionController : MonoBehaviour
         {
             mainCamera.backgroundColor = fireColor;
             isFire = true;
-            sfxController.Play(1);
+            sfxController.Pizzicato(0);
         }
 
         if (Input.GetButtonUp("Fire"))
