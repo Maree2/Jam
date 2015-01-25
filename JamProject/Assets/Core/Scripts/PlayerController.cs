@@ -86,13 +86,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.U)) // GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Earth")) // GetMouseButtonDown(0))
         {
             planet.Bong(Random.RandomRange(0.2f, 0.45f));
             
             bongoCooldownTime = 2f;
         }
-        else if (Input.GetKeyUp(KeyCode.U)) //Input.GetMouseButtonUp(0))
+        else if (Input.GetButtonUp("Earth")) //Input.GetMouseButtonUp(0))
         {
             //ResetPlanet();
             //planet.Bong(0);
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
 
         // AIR /////////
-        if (Input.GetKey(KeyCode.P))
+        /*if (Input.GetKey(KeyCode.P))
         {
             usingSpeedMod = true;
 
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         {
             usingSpeedMod = false;
             index = 0f;
-        }
+        }*/
 
 
         // Water /////////
@@ -124,13 +124,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.O)) // GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Water")) // GetMouseButtonDown(0))
         {
             planet.Life();
             waterCooldownTime = 1f;
             //bongoCooldownTime = 1f;
         }
-        else if (Input.GetKeyUp(KeyCode.O)) //Input.GetMouseButtonUp(0))
+        else if (Input.GetButtonUp("Water")) //Input.GetMouseButtonUp(0))
         {
                 //ResetPlanet();
                 //planet.Bong(0);
@@ -151,12 +151,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.I)) // GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Fire")) // GetMouseButtonDown(0))
         {
             fireParticles.Play();
             fireCooldownTime = 2f;
         }
-        else if (Input.GetKeyUp(KeyCode.I)) //Input.GetMouseButtonUp(0))
+        else if (Input.GetButtonUp("Fire")) //Input.GetMouseButtonUp(0))
         {
         }
 
@@ -222,21 +222,20 @@ public class PlayerController : MonoBehaviour
         longitudeAngle %= 360f;
         latitudeAngle %= 360f;
 
-        transform.position = CalculatePosition(longitudeAngle, latitudeAngle);
+        //transform.position = CalculatePosition(longitudeAngle, latitudeAngle);
+        //transform.LookAt(planet.transform.position, transform.up);
+        //transform.Rotate(Vector3.left, lookAngle);
 
-        transform.LookAt(planet.transform.position, transform.up);
-        transform.Rotate(Vector3.left, lookAngle);
-
-        /*Vector3 relativeUp = center.TransformDirection(Vector3.left);
-        Vector3 relativePos = center.position - transform.position;
-        transform.rotation = Quaternion.LookRotation(relativePos, relativeUp);*/
+            /*Vector3 relativeUp = center.TransformDirection(Vector3.left);
+            Vector3 relativePos = center.position - transform.position;
+            transform.rotation = Quaternion.LookRotation(relativePos, relativeUp);*/
     }
 	
 	// Update is called once per frame
 	void Update () 
     {
         ActionUpdate();
-        MovementUpdate();
+        //MovementUpdate();
 	}
 
     Vector3 CalculatePosition(float longitude, float latitude)

@@ -120,11 +120,13 @@ public class ActionController : MonoBehaviour
             {
                 // TODO
                 // call pizzicato here no loop
+                sfxController.Pizzicato(3);
             }
             else
             {
                 // TODO
                 // stop playing the loop
+                sfxController.Stop(3);
             }
             windTime = 0f;
             isWind = false;
@@ -154,6 +156,7 @@ public class ActionController : MonoBehaviour
         {
             // TODO
             // play indefinitely
+            sfxController.Play(3);
             isWindHold = true;
         }
     }

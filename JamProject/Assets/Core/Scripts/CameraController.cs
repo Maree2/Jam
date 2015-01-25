@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
 
     void Awake()
     {
-        Camera.main.transform.LookAt(lookat);
+        //Camera.main.transform.LookAt(lookat);
 
         //Camera.main.transform.LookAt(transform.position + transform.up);
     }
