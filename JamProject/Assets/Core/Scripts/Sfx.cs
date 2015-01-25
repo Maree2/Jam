@@ -5,12 +5,24 @@ public class Sfx : MonoBehaviour
 {
     public AudioClip[] clips;
     public AudioClip[] pizzicatos;
-    private int clipId = 0;
 
+    public AudioClip[] clips0;
+    public AudioClip[] pizz0;
+
+    public AudioClip[] clips1;
+    public AudioClip[] pizz1;
+
+    public AudioClip[] clips2;
+    public AudioClip[] pizz2;
+
+    public AudioClip[] clips3;
+    public AudioClip[] pizz3;
+
+    private int clipId = 0;
     // Use this for initialization
     void Start()
     {
-        audio.clip = clips[clipId];
+
     }
 
     // Update is called once per frame
@@ -42,6 +54,33 @@ public class Sfx : MonoBehaviour
         audio.clip = pizzicatos[clipId];
         audio.loop = false;
         audio.Play();
+    }
+
+    public void SetChords(int chordId)
+    {
+        if (clips0.Length == 0)
+            return;
+
+        switch (chordId)
+        {
+            default:
+            case 0:
+                clips = clips0;
+                pizzicatos = pizz0;
+                break;
+            case 1:
+                clips = clips1;
+                pizzicatos = pizz1;
+                break;
+            case 2:
+                clips = clips2;
+                pizzicatos = pizz2;
+                break;
+            case 3:
+                clips = clips3;
+                pizzicatos = pizz3;
+                break;
+        }
     }
 
 }

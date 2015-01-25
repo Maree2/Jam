@@ -9,6 +9,8 @@ public class BgmController : MonoBehaviour
 
     public Chord[] chords;
 
+    public SfxController sfxController;
+
     private int chordIndex = 0;
     private int chordPrev;
 
@@ -41,6 +43,7 @@ public class BgmController : MonoBehaviour
             Chord chordOld = chords[chordPrev];
             StartCoroutine(chordNew.Play(attackTime));
             StartCoroutine(chordOld.Stop(overlapTime));
+            sfxController.SetChord(chordIndex);
         }
     }
 

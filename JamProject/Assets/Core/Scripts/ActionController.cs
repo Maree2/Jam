@@ -67,7 +67,7 @@ public class ActionController : MonoBehaviour
             //mainCamera.backgroundColor = fireColor;
             StartCoroutine("ChangeColor", fireColor);
             isFire = true;
-            sfxController.Pizzicato(0);
+            sfxController.Pizzicato(1);
         }
 
         if (Input.GetButtonUp("Fire"))

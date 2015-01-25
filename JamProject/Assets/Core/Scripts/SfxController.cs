@@ -19,4 +19,12 @@ public class SfxController : MonoBehaviour
     {
         elements[elementId].Pizzicato();
     }
+
+    public void SetChord(int chordId)
+    {
+        for (int i = 0; i < elements.Length; i++)
+        {
+            elements[i].SetChords(chordId);
+        }
+    }
 }
